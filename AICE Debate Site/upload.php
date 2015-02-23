@@ -37,12 +37,24 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-        $command = "tesseract \"" . str_replace('/','\\',$target_file) . "\" out hocr";
-        echo $command;
-        $output = shell_exec($command);
-        echo $output;
+        $command = "tesseract \"" . str_replace('/','\\',basename($_FILES["fileToUpload"]["name"])) . "\" out -l eng"; //hocr
+        $output = shell_exec("cd Uploads && " . $command);
+        echo "<br>" . $output;
+        unlink($target_file);
     } else {
         echo "Sorry, there was an error uploading your file.";
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="protected_page.php" method="post" enctype="multipart/form-data">
+    Is this information correct?
+    <input type="submit" value="YES" name="submit">
+</form>
+
+</body>
+</html>
