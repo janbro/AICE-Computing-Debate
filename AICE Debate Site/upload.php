@@ -1,5 +1,5 @@
 <?php
-$target_dir = "uploads/";
+$target_dir = "Uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -37,10 +37,14 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-        $command = "tesseract \"" . str_replace('/','\\',basename($_FILES["fileToUpload"]["name"])) . "\" out -l eng"; //hocr
+        $command = "tesseract \"" . str_replace('/','\\',basename($_FILES["fileToUpload"]["name"])) . "\" out -l"; //hocr
         $output = shell_exec("cd Uploads && " . $command);
-        echo "<br>" . $output;
-        unlink($target_file);
+        rename($target_file,"temp/tempImage.jpg");
+        rename("Uploads/out.txt","temp/out.txt");
+        $command = "cd Python_Scripts && python \"Predictive Reading.py\"";
+        shell_exec($command);
+        echo "<br>You're score sheet is being processed...";
+        header('Location: ../confirmForm.php');
     } else {
         echo "Sorry, there was an error uploading your file.";
     }

@@ -1,4 +1,3 @@
- <script type="text/javascript" src="..js/sha512.js"></script>
 <?php
 include_once 'psl-config.php';
  
@@ -66,6 +65,7 @@ function login($email, $password, $mysqli) {
                                                             $username);
                 $_SESSION['username'] = $username;
                 $_SESSION['login_string'] = hash('sha512', $db_password . $user_browser);
+                $_SESSION['timeout'] = time();
                 // Login successful.
                 return true;
             } else {
@@ -89,6 +89,24 @@ function login_check($mysqli) {
     if (isset($_SESSION['user_id'], 
                         $_SESSION['username'], 
                         $_SESSION['login_string'])) {
+        if($_SESSION['timeout'] + 15 * 60 < time()){
+            // Unset all session values 
+            $_SESSION = array();
+ 
+            // get session parameters 
+            $params = session_get_cookie_params();
+ 
+            // Delete the actual cookie. 
+            setcookie(session_name(),
+            '', time() - 42000, 
+            $params["path"], 
+            $params["domain"], 
+            $params["secure"], 
+            $params["httponly"]);
+            session_unset();
+            session_destroy();
+            return false;
+        }
  
         $user_id = $_SESSION['user_id'];
         $login_string = $_SESSION['login_string'];
