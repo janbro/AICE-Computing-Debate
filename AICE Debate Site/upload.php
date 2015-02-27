@@ -1,4 +1,9 @@
 <?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+sec_session_start();
+
 $target_dir = "Uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
@@ -10,29 +15,34 @@ if(isset($_POST["submit"])) {
         echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
     } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
+        header('Location: ../error.php');
     }
 }
 // Check if file already exists
 if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
+    $_SESSION['error'] = "Sorry, file already exists.";
     $uploadOk = 0;
+    header('Location: ../error.php');
 }
-// Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
+
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+&& $imageFileType != "gif" && $uploadOk==1) {
+    $_SESSION['error'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
     $uploadOk = 0;
+    header('Location: ../error.php');
 }
+
+// Check file size
+if ($_FILES["fileToUpload"]["size"] > 500000 && $uploadOk==1) {
+    $_SESSION['error'] = "Sorry, your file is too large.";
+    $uploadOk = 0;
+    header('Location: ../error.php');
+}
+
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
+    header('Location: ../error.php');
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -46,19 +56,8 @@ if ($uploadOk == 0) {
         echo "<br>You're score sheet is being processed...";
         header('Location: ../confirmForm.php');
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        $_SESSION['error'] = "Sorry, there was an error uploading your file.";
+        header('Location: ../error.php');
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<body>
-
-<form action="protected_page.php" method="post" enctype="multipart/form-data">
-    Is this information correct?
-    <input type="submit" value="YES" name="submit">
-</form>
-
-</body>
-</html>

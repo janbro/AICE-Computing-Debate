@@ -20,6 +20,8 @@ if (login_check($mysqli) == true) {
         <meta charset="utf-8" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
+        
+        <title>Login</title>
     </head>
     <body><br>
         <div class="container">

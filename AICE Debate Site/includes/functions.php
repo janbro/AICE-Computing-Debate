@@ -89,7 +89,7 @@ function login_check($mysqli) {
     if (isset($_SESSION['user_id'], 
                         $_SESSION['username'], 
                         $_SESSION['login_string'])) {
-        if($_SESSION['timeout'] + 15 * 60 < time()){
+        if($_SESSION['timeout'] + 20 * 60 < time()){
             // Unset all session values 
             $_SESSION = array();
  

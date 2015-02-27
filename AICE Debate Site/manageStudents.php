@@ -95,6 +95,8 @@ function build_table($array){
         <link rel="stylesheet" href="css/normalize.css" type="text/css">
         <link rel="stylesheet" href="css/skeleton.css" type="text/css">
         <meta charset="utf-8" />
+        
+        <title>Student Manager</title>
     </head>
     <body>
         <br>

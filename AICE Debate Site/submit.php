@@ -18,7 +18,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 //Store info into database
 if (isset($_POST['index']) and !isset($_POST['cancel'])){
-    
+    $update = isset($_POST['update']);
+    $remove = isset($_POST['remove']);
     if(isset($_POST['add'])){
         $sql = "INSERT INTO `students` (hash,name,wins,score) VALUES ('".hash('sha512',$_POST['name_'.$_POST['index']])."','".$_POST['name_'.$_POST['index']]."',".$_POST['wins_'.$_POST['index']].",".$_POST['score_'.$_POST['index']].");";
         $result = $conn->query($sql);
@@ -27,18 +28,20 @@ if (isset($_POST['index']) and !isset($_POST['cancel'])){
             $names = explode(" ",$_POST['name_'.$x]);
             $sql = "SELECT hash,name,wins,score FROM `students` WHERE name='".$_POST['name_'.$x]."' LIMIT 1;";
             $result = $conn->query($sql);
-            echo $_POST['update'];
-            $newwins=$_POST['wins_'.$x];
-            $newscore=$_POST['score_'.$x];
-            if(isset($_POST['remove'])){
+            $row = $result->fetch_assoc();
+
+            if($remove){
                 if(isset($_POST['checkbox_'.$x]) ){
                     $sql = "DELETE FROM `students` WHERE name='".$_POST['name_'.$x]."';";
                     $result = $conn->query($sql);
                 }
             }else{
-                if(!isset($_POST['update'])){
+                if(!$update){
                     $newwins = $row['wins']+$_POST['wins_'.$x];
                     $newscore = $row['score']+$_POST['score_'.$x];
+                }else{
+                    $newwins=$_POST['wins_'.$x];
+                    $newscore=$_POST['score_'.$x];
                 }
                 if ($result->num_rows > 0) {
                     //Update info
