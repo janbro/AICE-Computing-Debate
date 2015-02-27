@@ -13,25 +13,41 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Secure Login: Log In</title>
-        <link rel="stylesheet" href="styles/main.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="css/normalize.css" type="text/css">
+        <link rel="stylesheet" href="css/skeleton.css" type="text/css">
+        <meta charset="utf-8" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
     </head>
-    <body>
+    <body><br>
+        <div class="container">
+            <h1 class="title" style="text-align: center">Login</h1>
         <?php
         if (isset($_GET['error'])) {
             echo '<p class="error">Error Logging In!</p>';
         }
         ?> 
-        <form action="includes/process_login.php" method="post" name="login_form">                      
-            Email: <input type="text" name="email" />
-            Password: <input type="password" 
+            <form action="includes/process_login.php" method="post" name="login_form">       
+            
+            <div class="row">
+                <div class="six columns">
+                    <label for="exampleEmailInput">Email</label>
+                    <input class="u-full-width" type="text" name="email" />
+                </div>
+                
+                <div class="six columns">
+                    <label for="exampleEmailInput">Password</label>
+                    <input class="u-full-width" type="password" 
                              name="password" 
                              id="password"/>
-            <input type="button" 
-                   value="Login" 
-                   onclick="formhash(this.form, this.form.password);" /> 
+                </div>
+                
+            </div>
+                <label for="exampleEmailInput"> </label>
+                <input type="button" value="Login" onclick="formhash(this.form, this.form.password);" /> 
+                
         </form>
  
 <?php
@@ -41,8 +57,8 @@ if (login_check($mysqli) == true) {
             echo '<p>Do you want to change user? <a href="includes/logout.php">Log out</a>.</p>';
         } else {
                         echo '<p>Currently logged ' . $logged . '.</p>';
-                        echo "<p>If you don't have a login, please <a href='register.php'>register</a></p>";
                 }
 ?>      
+            </div>
     </body>
 </html>
