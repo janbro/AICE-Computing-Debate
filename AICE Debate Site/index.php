@@ -96,9 +96,17 @@ function build_table($array){
         <form action="createStudent.php" method="post">
             <!--SELECT STUDENTS AND DISPLAY INFO: x and add at bottom-->
         </form>
-        
-        <h1 class="title" style="text-align: center;">Scoreboard</h1>
         <div class="container">
+        <div class="row">
+            <div class="two columns">
+                <img alt="Debate Logo" style="margin-top: 20px" width="100%" src="images/debaytelogo.png">
+            </div>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+                <h1 class="title" style="text-align: center;">Scoreboard</h1>
+            </div>
+        </div>
             <div class="row">
                     <?php
                     if (login_check($mysqli) == true) {
@@ -118,9 +126,7 @@ function build_table($array){
                         echo '</div>';
                         
                         echo '<div class="two columns">';
-                        echo '<form action="login.php" method="post" enctype="multipart/form-data">';
-                        echo '<input type="submit" value="Login" name="submit">';
-                        echo '</form>';
+                        echo '<a class="button" href="login.php">Login</a>';
                         echo '</div>';
                     }
                     ?>
@@ -131,5 +137,13 @@ function build_table($array){
                 </div>
             </div>
         </div>
+        </div>
+
+    <div class="container" style="text-align: right">
+    
+    <footer>
+      <p>Created by: <a href ="https://www.github.com/janbro" target="https://www.github.com/janbro">Alejandro Munoz</a></p>
+    </footer>
+    </div>
     </body>
 </html>

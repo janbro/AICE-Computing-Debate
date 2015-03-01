@@ -11,8 +11,10 @@ class student:
     
 schoolname = {"Cypress Bay"}
 
-names = {"Zonshen Yu","Hannah Kang","Eli Nir","Daniel Ruiz","Caleb Wong","Amun Majeed"}
-
+names = {}
+with open("../temp/names.txt","r") as myfile:
+    names = myfile.read().split(',')
+    
 students = []
 
 readtext = ""

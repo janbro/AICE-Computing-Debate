@@ -10,6 +10,8 @@ $username = "root";
 $password = "password";
 $dbname = "AICE";
 
+$myfile = fopen("temp/names.txt", "w");
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -24,9 +26,12 @@ if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
         array_push($data,array('name' => $row["name"],'wins' => $row["wins"],'score' => $row["score"])); 
+        fwrite($myfile, $row["name"] . ",");
         $index++;
     }
 }
+
+fclose($myfile);
 
 function build_table($array){
 
@@ -102,14 +107,14 @@ function build_table($array){
         <br>
         <?php if (login_check($mysqli) == true) : ?>
         <div class="container">
-         <div class="row">
-             <div class="one columns">
-            <a class="icon" href="/index.php" >
-              <img alt = "home" src="images/home.png" width="80%">
-            </a>
+          <div class="row">
+            <div class="two columns">
+                <a href="index.php"><img alt="Debate Logo" style="margin-top: 20px" width="100%" src="images/debaytelogo.png"></a>
             </div>
-             <div class="ten columns">
-            <h1 class="title" style="text-align: center;">Manage</h1>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+                <h1 class="title" style="text-align: center;">Manage</h1>
             </div>
         </div>
             
