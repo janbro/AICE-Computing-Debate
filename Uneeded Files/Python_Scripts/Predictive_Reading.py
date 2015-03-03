@@ -1,27 +1,32 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import re
 
 class student:
-    def __init__(self, readName, predictedName, line, wins = 0):
+    def __init__(self, readName, predictedName, wins = 0):
         self.readName = readName
         self.predictedName = predictedName
         self.line = line
         self.wins = wins
     
+schoolname = {"Cypress Bay"}
 
 names = {}
-with open("../temp/names.txt","r") as myfile:
+with open("../../temp/names.txt","r") as myfile:
     names = myfile.read().split(',')
     
+with open("./ttt","w") as mf:
+	mf.write("v");
+
 students = []
 
 readtext = ""
 
-with open("../temp/out.txt","r") as myfile:
+with open("../../temp/out.txt","r") as myfile:
     readtext = myfile.read().replace('\n',' ')
 
-writeTo = open("../temp/output.txt","w")
+writeTo = open("../../temp/output.txt","w")
 
 #sprint readtext
 
@@ -46,11 +51,14 @@ for line in match[1:]:
         name = re.search("[\(\[].*?[\]\)]",line)
         if name is not None:
             redNames.append(name.group(0)[1:len(name.group(0))-1])
-            searchString = match[curr-1][len(match[curr-1])-15:]
-            num = re.search("[0-9]+",searchString);
-            lin = int(num.group(0))
-            print winTemp[lin]
-            students.append(student(redNames[len(redNames)-1],"",lin,winTemp[lin-1]))
+            #searchString = match[curr-1][len(match[curr-1])-15:]
+            searchString = line.split(")")[1]
+	    num = re.search("[0-9]+",searchString);
+            #lin = int(num.group(0))
+            #print winTemp[lin]
+	    print "HERE IS WINS",num.group(0)
+	    lin = int(num.group(0))
+            students.append(student(redNames[len(redNames)-1],"",lin))
     curr+=1
 
 
@@ -110,8 +118,9 @@ for s in students:
     print s.readName
     print s.predictedName
     print s.wins
-    print s.line
-    contents+=s.predictedName+":"+s.readName+":"+s.wins+","
+    #print s.line
+    contents+=s.predictedName+":"+s.readName+":"+str(s.wins)+","
+
 
 writeTo.write(contents[:len(contents)-1])
 writeTo.close()
